@@ -1,0 +1,11 @@
+body {
+  padding-top: 50px;
+  overflow-y:scroll;
+}
+
+.center {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
