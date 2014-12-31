@@ -124,6 +124,22 @@ if(isset($_GET['edit'])){
 		}
 	}
 }
+
+// Delete outgoing stream from application
+function del_outgoing($id){
+	global $mysqli, $session_id;
+	
+	$stmt = $mysqli->prepare("DELETE FROM outgoing WHERE id = ?");
+	echo($mysqli->error);
+	$stmt->bind_param("i", $id);
+	$stmt->execute();
+	$stmt->close();
+}
+
+if(isset($_GET['del'])){
+	del_outgoing($_GET['del']);
+	header("Location: outgoing.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,6 +163,11 @@ if(isset($_GET['edit'])){
 					<?php if(isset($_GET['create'])){ ?>
 					
 					<h1>Create an Outgoing Stream</h1>
+					<ol class="breadcrumb" style="margin-top:10px;">
+						<li><a href="outgoing.php">Outgoing</a></li>
+						<li class="active">Create</li>
+					</ol>
+					
 					<?php echo($message); ?>
 					<form action="outgoing.php?create" method="post" role="form">
 						<div class="row">
@@ -182,6 +203,11 @@ if(isset($_GET['edit'])){
 					<?php }elseif(isset($_GET['edit'])){ ?>
 					
 					<h1>Edit an Outgoing Stream "<?php echo($name); ?>"</h1>
+					<ol class="breadcrumb" style="margin-top:10px;">
+						<li><a href="outgoing.php">Outgoing</a></li>
+						<li class="active">Edit</li>
+					</ol>
+					
 					<?php echo($message); ?>
 					<form action="outgoing.php?edit=<?php echo($edit); ?>" method="post" role="form">
 						<div class="row">
@@ -223,14 +249,16 @@ if(isset($_GET['edit'])){
 							<th>Play Path/Stream Key</th>
 							<th>Type</th>
 							<th>Status</th>
+							<th></th>
 						</tr>
 						<?php $streams = outgoing();
 						foreach($streams as $stream){ ?>
 						<tr>
-							<td><a href="?edit=<?php echo($stream['id']); ?>"><?php echo($stream['name']); ?></a></td>
+							<td><?php echo($stream['name']); ?></td>
 							<td><?php echo($stream['path']); ?></td>
 							<td><?php echo($stream['type']); ?></td>
 							<td><?php echo($stream['status']); ?></td>
+							<td><a href="?edit=<?php echo($stream['id']); ?>"><span class="glyphicon glyphicon-pencil"></span></a> <a href="?del=<?php echo($stream['id']); ?>" onclick="return confirmation()"><span class="glyphicon glyphicon-remove"></span></a></td>
 						</tr>
 						<?php } ?>
 					</table>
@@ -241,5 +269,16 @@ if(isset($_GET['edit'])){
 		</div>
 		
 		<?php include_once('footer.php'); ?>
+		
+		<script type="text/javascript">
+		function confirmation() {
+			var r = confirm("WARNING!\nThis action is perminate and non reversable. Are you sure you want to continue?");
+			if (r == true) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		</script>
 	</body>
 </html>
