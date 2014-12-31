@@ -2,6 +2,12 @@
 require_once('protected/config.php');
 require_once('global.php');
 
+if(isset($_SESSION['id'])){
+	if($logged == 1){ ?>
+		<script> window.history.go(-1); </script>
+<?php }
+}
+
 $message = "";
 if(isset($_POST['user'])){
 	$user = $_POST['user'];
@@ -52,7 +58,14 @@ if(isset($_POST['user'])){
 					$stmt->close();
 				}
 				
-				header("Location: " . $basedir);
+				if(isset($_GET['return'])){
+					$return = $_GET['return'];
+					$action = "login.php?return=$return";
+					header("Location: $return");
+				}else{
+					$action = "login.php";
+					header("Location: $basedir");
+				}
 			}
 		}else{
 			$message = "Invalid login.";
@@ -123,7 +136,7 @@ if(isset($_POST['user'])){
 			<div class="row">
 				<div class="col-lg-12">
 					
-					<form action="login.php" method="post" class="form-signin" role="form">
+					<form action="<?php echo($action); ?>" method="post" class="form-signin" role="form">
 						<h2 class="form-signin-heading">Sign in</h2>
 						<p><?php echo($message); ?></p>
 						<input type="text" class="form-control" name="user" placeholder="Username / Email" required autofocus>

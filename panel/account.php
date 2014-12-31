@@ -3,7 +3,7 @@ require_once('protected/config.php');
 require_once('global.php');
 
 if($logged == 0){
-	header("Location: " . $basedir);
+	header("Location: login.php?return=account.php");
 }
 
 $session_id = $_SESSION['id'];

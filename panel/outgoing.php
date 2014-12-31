@@ -7,7 +7,7 @@ $message = "";
 
 // Permission check
 if($logged == 0){
-	header("Location: ".$basedir);
+	header("Location: login.php?return=outgoing.php");
 }elseif($role != "admin"){
 	die("No permission");
 }
