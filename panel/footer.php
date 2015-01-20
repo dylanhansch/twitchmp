@@ -1,6 +1,6 @@
 <div id="footer" style="padding-top:20px;">
 			<div class="container">
-				<p class="text-muted center">Twitch Management Portal &copy; 2015 <a href="https://dylanhansch.net/" target="_blank">Dylan Hansch</a>. All rights reserved.</p>
+				<p class="text-muted center">Twitch Management Portal &copy; <?php echo(date("Y")); ?> <a href="https://dylanhansch.net/" target="_blank">Dylan Hansch</a>. All rights reserved.</p>
 			</div>
 		</div>
 		
