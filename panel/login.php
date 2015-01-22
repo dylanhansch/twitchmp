@@ -42,22 +42,6 @@ if(isset($_POST['user'])){
 					pass_cookie("id_cookie",$id,time()+60*60*24*100,"/");
 				}
 				
-				// Log new IP addresses (per user) for security
-				$stmt = $mysqli->prepare("SELECT ip_address FROM logins WHERE user = ? AND ip_address = ?");
-				echo($mysqli->error);
-				$stmt->bind_param('is', $_SESSION['id'], $_SERVER['REMOTE_ADDR']);
-				$stmt->execute();
-				$stmt->bind_result($foo);
-				if(!($stmt->fetch())){
-					$stmt->close();
-
-					$stmt = $mysqli->prepare("INSERT INTO logins (user,date,ip_address) VALUES (?,now(),?)");
-					echo($mysqli->error);
-					$stmt->bind_param('is', $_SESSION['id'], $_SERVER['REMOTE_ADDR']);
-					$stmt->execute();
-					$stmt->close();
-				}
-				
 				if(isset($_GET['return'])){
 					$return = $_GET['return'];
 					$action = "login.php?return=$return";
