@@ -3,10 +3,26 @@ require_once('protected/config.php');
 
 if(isset($_GET['pop'])){
 	$stmt = $mysqli->prepare("
-	CREATE TABLE `streams` (
+	CREATE TABLE `incoming` (
 		`id` int(11) NOT NULL AUTO_INCREMENT,
 		`name` varchar(255) NOT NULL,
-		`url` varchar(255) NOT NULL,
+		`path` varchar(255) NOT NULL,
+		`type` varchar(255) NOT NULL,
+		`status` varchar(255) NOT NULL,
+		PRIMARY KEY (`id`)
+	)
+	");
+	echo($mysqli->error);
+	$stmt->execute();
+	$stmt->close();
+	
+	$stmt = $mysqli->prepare("
+	CREATE TABLE `outgoing` (
+		`id` int(11) NOT NULL AUTO_INCREMENT,
+		`name` varchar(255) NOT NULL,
+		`path` varchar(255) NOT NULL,
+		`type` varchar(255) NOT NULL,
+		`status` varchar(255) NOT NULL,
 		PRIMARY KEY (`id`)
 	)
 	");
