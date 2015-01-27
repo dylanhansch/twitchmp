@@ -1,4 +1,4 @@
 twitchmp
 ========
 
-Twitch Management Portal
+Frontend web interface for the Twitch Management Portal
